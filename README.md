@@ -1,4 +1,6 @@
 # shcode2exe (shellcode to exe)
+# Notice that i forked this repo from @accidentalrebel on github. I just modified it to hide the cmd.exe popup when the victim clicks on the output.exe file, which is a very poor OPSEC.
+
 Compile shellcode into an exe file from Windows or Linux. 
 
 ## Features
