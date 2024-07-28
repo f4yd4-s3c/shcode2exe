@@ -46,10 +46,19 @@ def CompileShellCode(arguments):
         if arguments['verbose']:
             print("Converting input file to {}-gen.bin".format(filename))
 
-    asm_file_contents = '\tglobal _start\n' \
+    # I changed this to not show window
+    asm_file_contents = '\tglobal WinMainCRTStartup\n' \
+    '\tsection .text\n' \
+    'WinMainCRTStartup:\n' \
+    '\tincbin "' + file_input + '"\n' \
+    '\tmov eax, 0x0\n' \
+    '\tret\n'
+
+    """asm_file_contents = '\tglobal _start\n' \
         '\tsection .text\n' \
         '_start:\n' \
         '\tincbin "' + file_input + '"\n'
+    """
 
     if arguments['verbose']:
         print("Writing assembly instruction to {}.asm".format(filename))
@@ -72,6 +81,8 @@ def CompileShellCode(arguments):
     else:
         ld_bin += filename + '.exe'
 
+    # I added this to hidde cmd.exe PopUp
+    ld_bin += ' ' + ' -e WinMainCRTStartup -subsystem windows '
     ld_bin += ' ' + filename + '.obj'
     if arguments['verbose']:
         print("Executing: {}".format(ld_bin))
